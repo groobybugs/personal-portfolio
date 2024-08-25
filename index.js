@@ -43,28 +43,38 @@ window.addEventListener("scroll", () => {
 });
 
 // index.js
+// Array of song URLs
+const songs = ['./raw/song3.mp3', './raw/song2.mp3', './raw/song4.mp3', './raw/song.mp3'];
+let currentSongIndex = 0;
 
 // Create an audio element
 const audio = document.createElement('audio');
 
-// Set the source of the audio file
-audio.src = './raw/song.mp3'; 
+// Function to play the next song
+const playNextSong = () => {
+  currentSongIndex = (currentSongIndex + 1) % songs.length;
+  audio.src = songs[currentSongIndex];
+  audio.play().catch(error => {
+    console.error('Error playing audio:', error);
+  });
+};
 
-// Set the audio to loop infinitely
-audio.loop = true;
+// Set up the audio element
+audio.src = songs[currentSongIndex];
+audio.volume = 0.5;
+
+// Event listener for when a song ends
+audio.addEventListener('ended', playNextSong);
 
 // Append the audio element to the body
 document.body.appendChild(audio);
-
-// Set the volume to 50%
-audio.volume = 0.5;
 
 // Function to start playing the audio
 const startAudio = () => {
   audio.play().catch(error => {
     console.error('Error playing audio:', error);
   });
-  document.removeEventListener('click', startAudio); // Remove the event listener after the first interaction
+  document.removeEventListener('click', startAudio);
 };
 
 // Add an event listener to start the audio on the first user interaction
@@ -75,13 +85,25 @@ const muteButton = document.getElementById('mute-button');
 const muteIcon = document.getElementById('mute-icon');
 
 muteButton.addEventListener('click', () => {
-  if (audio.muted) {
-    audio.muted = false;
-    muteIcon.src = './images/mute.svg'; // Replace with the path to your mute icon
+  if (audio.paused) {
+    audio.play().catch(error => {
+      console.error('Error playing audio:', error);
+    });
+    muteIcon.src = './images/mute.svg';
   } else {
-    audio.muted = true;
-    muteIcon.src = './images/unmute.svg'; // Replace with the path to your unmute icon
+    audio.pause();
+    muteIcon.src = './images/unmute.svg';
   }
+});
+// Media key support
+navigator.mediaSession.setActionHandler('play', () => {
+  audio.play();
+  muteIcon.src = './images/mute.svg';
+});
+
+navigator.mediaSession.setActionHandler('pause', () => {
+  audio.pause();
+  muteIcon.src = './images/unmute.svg';
 });
 
 // Modal functionality
