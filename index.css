@@ -297,6 +297,70 @@ body:not(.user-is-tabbing) a:focus {
     font-family: sans-serif;
 }
 
+/* ----- Mute button ----- */
+  .mute-button {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: var(--pink);
+    border: none;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    transition: background-color 0.3s;
+  }
+  
+  .mute-button:active {
+    background-color: var(--dark-pink); /* Ensure the button does not remain transparent when clicked */
+  }
+  
+  /* Ensure the SVG uses the fill property */
+  .mute-button img {
+    width: 24px;
+    height: 24px;
+    fill: var(--white);
+  }
+  
+  /* Modal styles */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1001; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: var(--black); /* Fallback color */
+  }
+  
+  .modal-content {
+    background-color: #201a1a;
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%; /* Could be more or less, depending on screen size */
+  }
+  
+  .close-button {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
+  
+  .close-button:hover,
+  .close-button:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
 /* ----- Back to Top ----- */
 
 .back-to-top {
